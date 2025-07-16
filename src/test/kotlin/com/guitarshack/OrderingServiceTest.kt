@@ -2,13 +2,14 @@ package com.guitarshack
 
 
 import org.junit.jupiter.api.Test
+import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class OrderingServiceTest {
     @Test
     fun `allows to add item to the order when the item is available on the stock`() {
-        val itemIdentifier = "itemIdentifier"
+        val itemIdentifier = UUID.randomUUID().toString()
         val item = Item(itemIdentifier)
         val stock = Stock()
         val orderingService = OrderingService(stock)
@@ -16,16 +17,17 @@ class OrderingServiceTest {
 
         val orderAfterAddingItem = orderingService.addItem(item, orderBeforeAddingItem)
 
+
         assertEquals(1, orderAfterAddingItem.items.size)
         assertTrue(orderAfterAddingItem.items.contains(item))
     }
 }
 
-data class Order( val items: List<Item> = listOf(Item("itemIdentifier")))
+data class Order( val items: List<Item> = listOf())
 
 class OrderingService(stock: Stock) {
     fun addItem(item: Item, orderBeforeAddingItem: Order):Order =
-        orderBeforeAddingItem
+        orderBeforeAddingItem.copy(items = orderBeforeAddingItem.items + item)
 }
 
 class Stock
