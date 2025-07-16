@@ -1,20 +1,22 @@
 package com.guitarshack
 
 
+import com.guitarshack.stock.Stock
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class StockTest {
     @Test
-    fun `should say available only when item on stock`() {
+    fun `should give the number of given item on stock`() {
         val item = Item(UUID.randomUUID().toString())
-        val itemNotOnStock = Item(UUID.randomUUID().toString())
-        val stock = Stock(listOf(item))
+        val anotherItem = Item(UUID.randomUUID().toString())
+        val itemsOnStock = listOf(item, item, item)
+        val anotherItemOnStock = listOf(anotherItem, anotherItem)
+        val stock = Stock(itemsOnStock + anotherItemOnStock)
 
-        assertTrue(stock.isAvailable(item))
-        assertFalse(stock.isAvailable(itemNotOnStock))
+        assertEquals(itemsOnStock.size, stock.numberOfAvailableItems(item))
+        assertEquals(anotherItemOnStock.size, stock.numberOfAvailableItems(anotherItem))
     }
 }
+
