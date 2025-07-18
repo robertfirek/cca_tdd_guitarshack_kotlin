@@ -11,6 +11,10 @@ class OrderingService(private val stock: Stock) {
      */
     fun Order.addItem(orderItem: OrderItem): Order = when {
         stock.hasSufficientQuantityOnStock(orderItem.product, orderItem.quantity)
+            // TODO Hide order logic in the Order class:
+            //        * make `orderItems` private
+            //        * add method to `Order.appendOrderItem`
+            //            * take into account that you may order the same product again (updates quantity rather adding a new order item).
         -> this.copy(orderItems = orderItems + orderItem)
 
         else -> this
