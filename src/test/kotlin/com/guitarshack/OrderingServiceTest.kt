@@ -19,10 +19,11 @@ class OrderingServiceTest {
         val orderQuantity = 3u
         val orderItem = OrderItem(product, orderQuantity)
         val orderBefore = Order()
+        val expectedNumberOfOrderedProducts = 1
 
         val order = with(OrderingService(stock)) { orderBefore.addItem(orderItem) }
 
-        assertEquals(orderQuantity, order.orderItems.size.toUInt())
+        assertEquals(expectedNumberOfOrderedProducts, order.orderItems.size)
         assertTrue(order.orderItems.contains(orderItem))
     }
 
@@ -43,6 +44,7 @@ class OrderingServiceTest {
         val anotherOrderQuantity = 5u
         val anotherOrderItem = OrderItem(anotherProduct, anotherOrderQuantity)
         val orderBefore = Order()
+        val expectedNumberOfOrderedProducts = 2
 
         val order = with(OrderingService(stock)) {
             orderBefore
@@ -51,7 +53,7 @@ class OrderingServiceTest {
         }
 
 
-        assertEquals(orderQuantity + anotherOrderQuantity, order.orderItems.size.toUInt())
+        assertEquals(expectedNumberOfOrderedProducts, order.orderItems.size)
         assertTrue(order.orderItems.contains(orderItem))
         assertTrue(order.orderItems.contains(anotherOrderItem))
     }
