@@ -1,10 +1,10 @@
 package com.guitarshack.stock
 
-import com.guitarshack.Item
+import com.guitarshack.OrderItem
 
-class Stock(private val items: List<Item> = listOf()) {
-    fun numberOfAvailableItems(item: Item): Int =
-        items.count {
-        it.itemIdentifier == item.itemIdentifier
+class Stock(private val products: List<OrderItem> = listOf()) {
+    fun numberOfAvailableItems(orderItem: OrderItem): Int =
+        products.count {
+        it.product == orderItem.product
     }
 }

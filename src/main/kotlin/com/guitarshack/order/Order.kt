@@ -1,5 +1,5 @@
 package com.guitarshack.order
 
-import com.guitarshack.Item
+import com.guitarshack.OrderItem
 
-data class Order(val items: List<Item> = listOf())
+data class Order(val orderItems: List<OrderItem> = listOf())

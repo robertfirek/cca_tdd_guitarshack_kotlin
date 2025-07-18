@@ -9,14 +9,14 @@ import kotlin.test.assertEquals
 class StockTest {
     @Test
     fun `should give the number of given item on stock`() {
-        val item = Item(UUID.randomUUID().toString())
-        val anotherItem = Item(UUID.randomUUID().toString())
-        val itemsOnStock = listOf(item, item, item)
-        val anotherItemOnStock = listOf(anotherItem, anotherItem)
+        val orderItem = OrderItem(UUID.randomUUID().toString())
+        val anotherOrderItem = OrderItem(UUID.randomUUID().toString())
+        val itemsOnStock = listOf(orderItem, orderItem, orderItem)
+        val anotherItemOnStock = listOf(anotherOrderItem, anotherOrderItem)
         val stock = Stock(itemsOnStock + anotherItemOnStock)
 
-        assertEquals(itemsOnStock.size, stock.numberOfAvailableItems(item))
-        assertEquals(anotherItemOnStock.size, stock.numberOfAvailableItems(anotherItem))
+        assertEquals(itemsOnStock.size, stock.numberOfAvailableItems(orderItem))
+        assertEquals(anotherItemOnStock.size, stock.numberOfAvailableItems(anotherOrderItem))
     }
 }
 

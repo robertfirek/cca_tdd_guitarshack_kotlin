@@ -1,21 +1,21 @@
 package com.guitarshack.order
 
-import com.guitarshack.Item
+import com.guitarshack.OrderItem
 import com.guitarshack.stock.Stock
 
 class OrderingService(private val stock: Stock) {
     /**
-     * Add item – add an item to an order.
-     * An order item has a product and a quantity.
+     * Add orderItem – add an orderItem to an order.
+     * An order orderItem has a product and a quantity.
      * There must be sufficient stock of that product to fulfil the order
      */
-    fun addItem(item: Item, order: Order, orderQuantity: Int = 1): Order = when {
-        hasSufficientItems(item, orderQuantity)
-        -> order.copy(items = order.items + (1..orderQuantity).map { item })
+    fun addItem(orderItem: OrderItem, order: Order, orderQuantity: Int = 1): Order = when {
+        hasSufficientItems(orderItem, orderQuantity)
+        -> order.copy(orderItems = order.orderItems + (1..orderQuantity).map { orderItem })
 
         else -> order
     }
 
-    private fun hasSufficientItems(item: Item, orderQuantity: Int) =
-        stock.numberOfAvailableItems(item) >= orderQuantity
+    private fun hasSufficientItems(orderItem: OrderItem, orderQuantity: Int) =
+        stock.numberOfAvailableItems(orderItem) >= orderQuantity
 }
