@@ -16,11 +16,11 @@ class OrderingServiceTest {
         val product = UUID.randomUUID().toString()
         val productQuantityOnStock = 10u
         val stock = Stock(products = mapOf(product to productQuantityOnStock))
-        val orderItem = OrderItem(product)
         val orderQuantity = 3u
+        val orderItem = OrderItem(product, orderQuantity)
         val orderBefore = Order()
 
-        val order = with(OrderingService(stock)) { orderBefore.addItem(orderItem, orderQuantity) }
+        val order = with(OrderingService(stock)) { orderBefore.addItem(orderItem) }
 
         assertEquals(orderQuantity, order.orderItems.size.toUInt())
         assertTrue(order.orderItems.contains(orderItem))
@@ -38,16 +38,16 @@ class OrderingServiceTest {
                 anotherProduct to anotherProductQuantityOnStock
             )
         )
-        val orderItem = OrderItem(product)
         val orderQuantity = 10u
-        val anotherOrderItem = OrderItem(anotherProduct)
+        val orderItem = OrderItem(product, orderQuantity)
         val anotherOrderQuantity = 5u
+        val anotherOrderItem = OrderItem(anotherProduct, anotherOrderQuantity)
         val orderBefore = Order()
 
         val order = with(OrderingService(stock)) {
             orderBefore
-                .addItem(orderItem, orderQuantity)
-                .addItem(anotherOrderItem, anotherOrderQuantity)
+                .addItem(orderItem)
+                .addItem(anotherOrderItem)
         }
 
 
@@ -60,24 +60,24 @@ class OrderingServiceTest {
     fun `do not allow to add order item when the product is unavailable on the stock`() {
         val product = UUID.randomUUID().toString()
         val stock = Stock(products = emptyMap())
-        val orderItem = OrderItem(product)
+        val orderItem = OrderItem(product, 5u)
         val orderBefore = Order()
 
-        val orderAfterAddingItem = with(OrderingService(stock)) { orderBefore.addItem(orderItem, 1u) }
+        val orderAfterAddingItem = with(OrderingService(stock)) { orderBefore.addItem(orderItem) }
 
         assertEquals(0, orderAfterAddingItem.orderItems.size)
     }
 
     @Test
-    fun `do not allow to add order item when the requested quantity of product is unavailable on the stock`() {
+    fun `do not allow to add order item when the order quantity of product is unavailable on the stock`() {
         val product = UUID.randomUUID().toString()
         val productQuantityOnStock = 10u
         val stock = Stock(products = mapOf(product to productQuantityOnStock))
         val orderBefore = Order()
-        val orderItem = OrderItem(product)
-        val requestedQuantity = productQuantityOnStock + 1u
+        val orderQuantity = productQuantityOnStock + 1u
+        val orderItem = OrderItem(product, orderQuantity)
 
-        val orderAfterAddingItem = with(OrderingService(stock)) { orderBefore.addItem(orderItem, requestedQuantity) }
+        val orderAfterAddingItem = with(OrderingService(stock)) { orderBefore.addItem(orderItem) }
 
         assertEquals(0, orderAfterAddingItem.orderItems.size)
     }
