@@ -2,26 +2,12 @@ package com.guitarshack
 
 
 import com.guitarshack.stock.Stock
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.UUID
 import kotlin.test.assertEquals
 
 class StockTest {
-    @Test
-    fun `should give the number of given item on stock`() {
-        val orderItem = OrderItem(UUID.randomUUID().toString())
-        val anotherOrderItem = OrderItem(UUID.randomUUID().toString())
-        val itemsOnStock = listOf(orderItem, orderItem, orderItem)
-        val anotherItemOnStock = listOf(anotherOrderItem, anotherOrderItem)
-        val stock = Stock(itemsOnStock + anotherItemOnStock)
-
-        assertEquals(itemsOnStock.size, stock.numberOfAvailableItems(orderItem))
-        assertEquals(anotherItemOnStock.size, stock.numberOfAvailableItems(anotherOrderItem))
-    }
-
     @ParameterizedTest(name = "{0}")
     @MethodSource("hasSufficientQuantityOnStockScenarios")
     fun `should inform if it has sufficient quantity product`(

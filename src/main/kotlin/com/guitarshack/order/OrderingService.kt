@@ -9,13 +9,10 @@ class OrderingService(private val stock: Stock) {
      * An order orderItem has a product and a quantity.
      * There must be sufficient stock of that product to fulfil the order
      */
-    fun addItem(orderItem: OrderItem, order: Order, orderQuantity: Int = 1): Order = when {
-        hasSufficientItems(orderItem, orderQuantity)
-        -> order.copy(orderItems = order.orderItems + (1..orderQuantity).map { orderItem })
+    fun Order.addItem(orderItem: OrderItem, orderQuantity: UInt): Order = when {
+        stock.hasSufficientQuantityOnStock(orderItem.product, orderQuantity)
+        -> this.copy(orderItems = orderItems + (1..orderQuantity.toLong()).map { orderItem })
 
-        else -> order
+        else -> this
     }
-
-    private fun hasSufficientItems(orderItem: OrderItem, orderQuantity: Int) =
-        stock.numberOfAvailableItems(orderItem) >= orderQuantity
 }
